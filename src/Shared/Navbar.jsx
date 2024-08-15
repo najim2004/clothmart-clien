@@ -9,7 +9,7 @@ const Navbar = () => {
   const [isOpenSignUp, setIsOpenSignUp] = useState(false);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   return (
-    <div className="h-12 bg-black">
+    <nav className="h-12 bg-black/90">
       <Section className="flex justify-between items-center h-full relative">
         <div className="uppercase">
           <h2 className="text-white font-semibold text-2xl">ClothMart</h2>
@@ -78,7 +78,7 @@ const Navbar = () => {
           </div>
         </div>
       </Section>
-    </div>
+    </nav>
   );
 };
 
