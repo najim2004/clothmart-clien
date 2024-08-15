@@ -10,3 +10,7 @@ body {
 .Architects {
   font-family: "Architects Daughter", cursive;
 }
+
+.menuList a.active {
+  @apply border-b-2 border-gray-500;
+}

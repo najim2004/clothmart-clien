@@ -9,24 +9,32 @@ const Navbar = () => {
   const [isOpenSignUp, setIsOpenSignUp] = useState(false);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   return (
-    <nav className="h-12 bg-black/90">
+    <nav className="h-12 bg-black/90 z-50">
       <Section className="flex justify-between items-center h-full relative">
         <div className="uppercase">
           <h2 className="text-white font-semibold text-2xl">ClothMart</h2>
         </div>
         <div className="uppercase">
-          <ul className="text-white flex gap-4 text-sm justify-center items-center">
+          <ul className="text-white flex gap-4 text-sm justify-center items-center menuList">
             <li>
-              <NavLink>Home</NavLink>
+              <NavLink to={"/"} className="p-1">
+                Home
+              </NavLink>
             </li>
             <li>
-              <NavLink>Shop</NavLink>
+              <NavLink className="p-1" to={"/shop"}>
+                Shop
+              </NavLink>
             </li>
             <li>
-              <NavLink>About us</NavLink>
+              <NavLink to={"/about-us"} className="p-1">
+                About us
+              </NavLink>
             </li>
             <li>
-              <NavLink>Contact us</NavLink>
+              <NavLink to={"/contact-us"} className="p-1">
+                Contact us
+              </NavLink>
             </li>
           </ul>
         </div>
@@ -61,7 +69,7 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-        <div className={`absolute top-12 right-0`}>
+        <div className={`absolute top-12 right-0 z-40`}>
           <div className={`${isOpenLogin ? "flex" : "hidden"}`}>
             <LoginForm
               isOpenLogin={isOpenLogin}

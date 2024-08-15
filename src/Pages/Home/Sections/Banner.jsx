@@ -8,7 +8,7 @@ const Banner = () => {
         <h2 className="text-lg font-medium uppercase">SUMMER SALE 50% OFF</h2>
         <h1 className="Architects text-[62px]">Design For Beauty</h1>
         <p className="text-lg font-medium">
-          You Can Have Anything You Want In Life You Dress For It.{" "}
+          You Can Have Anything You Want In Life You Dress For It.
         </p>
         <button className="px-5 py-2 text-lg font-medium border border-black rounded-md">
           All Collection
