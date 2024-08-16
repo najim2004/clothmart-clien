@@ -14,3 +14,8 @@ body {
 .menuList a.active {
   @apply border-b-2 border-gray-500;
 }
+
+input,
+select {
+  @apply bg-gray-50;
+}

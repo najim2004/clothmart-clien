@@ -5,9 +5,22 @@ import { useState } from "react";
 import FilterSideBar from "../../Components/FilterSideBar";
 import AllProducts from "./Sections/AllProducts";
 import Pagination from "../../Components/Paginations";
+import useAxios from "../../Hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
 
 const Shop = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const axiosPublic = useAxios();
+  const [AllProductsData, setAllProductsData] = useState();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["allProducts"],
+    queryFn: async () => {
+      const response = await axiosPublic.get("/products");
+      return response.data;
+    },
+  });
+
   const onSearch = (value) => {
     console.log(value);
   };
@@ -34,7 +47,7 @@ const Shop = () => {
           setIsOpenFilter={setIsOpenFilter}
         />
       </div>
-      <AllProducts className="my-10" />
+      <AllProducts className="my-10" data={data} />
       <Pagination />
     </Section>
   );

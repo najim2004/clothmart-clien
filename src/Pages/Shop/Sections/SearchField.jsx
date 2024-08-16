@@ -29,7 +29,7 @@ const SearchField = ({ onSearch, className }) => {
         value={searchTerm}
         onChange={handleInputChange}
         placeholder="Search products..."
-        className="p-2 w-full border border-gray-300 rounded max-w-[600px]"
+        className="bg-gray-50 p-2 w-full border border-gray-300 rounded max-w-[600px]"
       />
     </div>
   );

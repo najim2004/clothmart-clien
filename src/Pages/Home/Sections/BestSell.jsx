@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ProductCard from "../../../Components/ProductCard";
 import Section from "../../../Components/Section";
 import product1 from "../../../assets/louis.png";
@@ -21,9 +22,12 @@ const BestSell = () => {
         <ProductCard img={product3} />
         <ProductCard img={product4} />
       </div>
-      <button className="px-5 py-1 text-lg font-medium border border-black rounded-md mx-auto mt-12">
+      <Link
+        to={"/shop"}
+        className="px-5 py-1 text-lg font-medium border border-black rounded-md mx-auto mt-12"
+      >
         Load More
-      </button>
+      </Link>
     </Section>
   );
 };
