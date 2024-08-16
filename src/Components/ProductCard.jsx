@@ -20,17 +20,17 @@ const ProductCard = ({ img, product }) => {
     <div className="">
       <div className="relative h-[260px] md:h-[336px] lg:h-[336px] w-full shadow-lg">
         <img className="size-full" src={img} alt="" />
-        <button className="bg-white p-2 rounded-full absolute top-3 right-3">
-          <img src={ILike} alt="" />
+        <button className="bg-white p-1 size-7  lg:p-2 rounded-full absolute top-3 right-3">
+          <img className="size-full" src={ILike} alt="" />
         </button>
-        <div className="absolute bg-white p-[6px] bottom-3 left-3 flex gap-1 items-center text-sm font-medium rounded-sm">
+        <div className="absolute bg-white p-1 bottom-3 left-3 flex gap-1 items-center text-sm font-medium rounded-sm">
           <p className="flex gap-1 items-center">
             {product?.ratings}{" "}
             <img className="size-[14px]" src={IStar} alt="" />
           </p>
           {/* |<p>690</p> */}
         </div>
-        <div className="absolute bg-white p-[6px] top-3 left-3 flex gap-1 items-center text-sm font-medium rounded-md">
+        <div className="absolute bg-white p-1 top-3 left-3 flex gap-1 items-center text-sm font-medium rounded-md">
           <p>$ {product?.price}</p>
         </div>
       </div>

@@ -62,14 +62,14 @@ const Shop = () => {
 
   return (
     <Section>
-      <h3 className="text-[40px] font-bold mx-auto text-center my-7">
-        All Best Products
+      <h3 className="lg:text-[40px] md:text-2xl text-xl font-bold mx-auto text-center my-7">
+        Our All Collections
       </h3>
-      <div className="flex justify-between items-center h-max">
+      <div className="flex justify-center gap-5 lg:justify-between items-center h-max">
         <SearchField
           setSearchQuery={setSearchQuery}
           onSearch={onSearch}
-          className="flex-grow flex justify-center items-center"
+          className="lg:flex-grow flex justify-center items-center"
         />
         <button
           onClick={() => setIsOpenFilter(true)}
@@ -86,7 +86,7 @@ const Shop = () => {
           setIsOpenFilter={setIsOpenFilter}
         />
       </div>
-      {data?.totalProducts > 0 && (
+      {data?.totalProducts > 0 ? (
         <>
           <AllProducts className="my-10" data={data?.products} />
           <Pagination
@@ -95,6 +95,11 @@ const Shop = () => {
             onPageChange={onPageChange}
           />
         </>
+      ) : (
+        <div className="h-[400px] w-full flex flex-col justify-center items-center">
+          <h1 className="text-5xl font-bold text-gray-400 mb-4">{":("}</h1>
+          <h1 className="text-4xl font-bold text-gray-400">Not Found!</h1>
+        </div>
       )}
     </Section>
   );

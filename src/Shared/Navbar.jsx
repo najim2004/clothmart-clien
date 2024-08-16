@@ -117,7 +117,7 @@ const Navbar = () => {
         </div>
         <hr className="my-2 border-black" />
         <div className="">
-          <ul className="space-y-3 font-semibold">
+          <ul className="space-y-3 font-semibold menuList">
             {menuList}
             <li className="pt-10">
               <button className="flex justify-center items-center gap-2 text-white text-sm font-bold bg-red-500 rounded-md py-1 w-full">
