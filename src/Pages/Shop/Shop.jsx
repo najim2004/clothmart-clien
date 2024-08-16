@@ -1,36 +1,73 @@
 import { FaFilter } from "react-icons/fa";
 import Section from "../../Components/Section";
 import SearchField from "./Sections/SearchField";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FilterSideBar from "../../Components/FilterSideBar";
 import AllProducts from "./Sections/AllProducts";
-import Pagination from "../../Components/Paginations";
+import Pagination from "../../Components/Pagination";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 
 const Shop = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const axiosPublic = useAxios();
-  const [AllProductsData, setAllProductsData] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterOptions, setFilterOptions] = useState({
+    brand: "",
+    category: "",
+    priceRange: [0, 1000],
+    sort: "",
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(12);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["allProducts"],
-    queryFn: async () => {
-      const response = await axiosPublic.get("/products");
-      return response.data;
-    },
+  const fetchProducts = async () => {
+    const response = await axiosPublic.get("/products", {
+      params: {
+        page: currentPage,
+        limit: pageSize,
+        search: searchQuery,
+        filters: filterOptions,
+      },
+    });
+    return response.data;
+  };
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["allProducts", currentPage, searchQuery, filterOptions],
+    queryFn: fetchProducts,
+    keepPreviousData: true,
   });
 
-  const onSearch = (value) => {
-    console.log(value);
+  const handleApply = () => {
+    setCurrentPage(1);
   };
+
+  const onSearch = (query) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
+  };
+
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  useEffect(() => {
+    if (data?.totalProducts === 0) {
+      setCurrentPage(1);
+    }
+  }, [data?.totalProducts]);
+  // if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching products: {error.message}</div>;
+
   return (
-    <Section className={""}>
+    <Section>
       <h3 className="text-[40px] font-bold mx-auto text-center my-7">
-        All Best Product
+        All Best Products
       </h3>
       <div className="flex justify-between items-center h-max">
         <SearchField
+          setSearchQuery={setSearchQuery}
           onSearch={onSearch}
           className="flex-grow flex justify-center items-center"
         />
@@ -41,14 +78,24 @@ const Shop = () => {
           <FaFilter className="text-lg" /> Filter
         </button>
         <FilterSideBar
+          setFilterOptions={setFilterOptions}
+          handleApply={handleApply}
           className={`${
             isOpenFilter ? "translate-x-0" : "translate-x-full"
-          }  duration-500 z-50`}
+          } duration-500 z-50`}
           setIsOpenFilter={setIsOpenFilter}
         />
       </div>
-      <AllProducts className="my-10" data={data} />
-      <Pagination />
+      {data?.totalProducts > 0 && (
+        <>
+          <AllProducts className="my-10" data={data?.products} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(data.totalProducts / pageSize)}
+            onPageChange={onPageChange}
+          />
+        </>
+      )}
     </Section>
   );
 };

@@ -4,11 +4,13 @@ import Navbar from "./Shared/Navbar";
 
 function App() {
   return (
-    <>
+    <div className="flex flex-col w-full lg:min-h-screen">
       <Navbar />
-      <Outlet />
+      <div className="flex-grow">
+        <Outlet />
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

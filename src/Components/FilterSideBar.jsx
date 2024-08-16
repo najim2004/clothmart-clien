@@ -3,13 +3,31 @@ import { useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
-const FilterSideBar = ({ className, setIsOpenFilter }) => {
+const FilterSideBar = ({
+  className,
+  setIsOpenFilter,
+  handleApply,
+  setFilterOptions,
+}) => {
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [sortPrice, setSortPrice] = useState("");
-  const [sortDate, setSortDate] = useState("");
+  const [sort, setSort] = useState("");
 
+  const handleApplyFilter = () => {
+    handleApply();
+    setFilterOptions({ brand, category, priceRange, sort });
+    setIsOpenFilter(false);
+  };
+  const handleReset = () => {
+    handleApply();
+    setFilterOptions({ brand: "", category: "", priceRange, sort: "" });
+    setBrand("");
+    setCategory("");
+    setPriceRange([0, 1000]);
+    setSort("");
+    setIsOpenFilter(false);
+  };
   return (
     <div
       className={`${className} fixed top-0 right-0 bg-white h-screen w-[300px] shadow-lg`}
@@ -25,6 +43,23 @@ const FilterSideBar = ({ className, setIsOpenFilter }) => {
       </div>
 
       <div className="px-5 py-4">
+        {/* Sorting Options */}
+        <div className="mb-5">
+          <label className="block text-sm font-medium text-gray-700">
+            Sort
+          </label>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"
+          >
+            <option value="">None</option>
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+        </div>
         {/* Brand Selection */}
         <div className="mb-5">
           <label className="block text-sm font-medium text-gray-700">
@@ -84,44 +119,17 @@ const FilterSideBar = ({ className, setIsOpenFilter }) => {
           </div>
         </div>
 
-        {/* Sorting Options */}
-        <div className="mb-5">
-          <label className="block text-sm font-medium text-gray-700">
-            Sort By Price
-          </label>
-          <select
-            value={sortPrice}
-            onChange={(e) => setSortPrice(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"
-          >
-            <option value="">None</option>
-            <option value="price_low_high">Price: Low to High</option>
-            <option value="price_high_low">Price: High to Low</option>
-          </select>
-        </div>
-
-        <div className="mb-5">
-          <label className="block text-sm font-medium text-gray-700">
-            Sort By Date
-          </label>
-          <select
-            value={sortDate}
-            onChange={(e) => setSortDate(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"
-          >
-            <option value="">None</option>
-            <option value="newest_first">Newest First</option>
-            <option value="oldest_first">Oldest First</option>
-          </select>
-        </div>
-
         {/* Apply Button */}
-        <div className="flex justify-center mt-5">
+        <div className="flex justify-center mt-5 gap-5">
           <button
-            className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
-            onClick={() => {
-              // Logic to apply filters
-            }}
+            className="px-3 py-1 leading-tight text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-100 hover:text-gray-700"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+          <button
+            className="px-3 py-1 leading-tight text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-100 hover:text-gray-700"
+            onClick={handleApplyFilter}
           >
             Apply
           </button>
@@ -134,6 +142,8 @@ const FilterSideBar = ({ className, setIsOpenFilter }) => {
 FilterSideBar.propTypes = {
   className: PropTypes.string,
   setIsOpenFilter: PropTypes.func.isRequired,
+  handleApply: PropTypes.func.isRequired,
+  setFilterOptions: PropTypes.func.isRequired,
 };
 
 export default FilterSideBar;

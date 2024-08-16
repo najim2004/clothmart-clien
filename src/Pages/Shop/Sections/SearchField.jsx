@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
-const SearchField = ({ onSearch, className }) => {
+const SearchField = ({ className, setSearchQuery }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debounceTimeout, setDebounceTimeout] = useState(null);
 
@@ -16,7 +16,7 @@ const SearchField = ({ onSearch, className }) => {
 
     // Set a new timeout to call the onSearch function after 2 seconds of inactivity
     const timeout = setTimeout(() => {
-      onSearch(term);
+      setSearchQuery(term);
     }, 2000);
 
     setDebounceTimeout(timeout);
@@ -36,7 +36,8 @@ const SearchField = ({ onSearch, className }) => {
 };
 
 SearchField.propTypes = {
-  onSearch: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  setSearchQuery: PropTypes.func.isRequired,
 };
 
 export default SearchField;

@@ -5,37 +5,49 @@ import LoginForm from "../Components/LoginForm";
 import SignUpForm from "../Components/SignUpForm";
 import ILove from "../assets/love.svg";
 import ICart from "../assets/cart.svg";
+import { MdMenu } from "react-icons/md";
 const Navbar = () => {
   const [isOpenSignUp, setIsOpenSignUp] = useState(false);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
+
+  const menuList = (
+    <>
+      <li>
+        <NavLink to={"/"} className="p-1">
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink className="p-1" to={"/shop"}>
+          Shop
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={"/about-us"} className="p-1">
+          About us
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={"/contact-us"} className="p-1">
+          Contact us
+        </NavLink>
+      </li>
+    </>
+  );
   return (
     <nav className="h-12 bg-black/90 z-50">
       <Section className="flex justify-between items-center h-full relative">
+        <div className="text-white h-full flex items-center lg:hidden">
+          <button className="text-2xl">
+            <MdMenu />
+          </button>
+        </div>
         <div className="uppercase">
           <h2 className="text-white font-semibold text-2xl">ClothMart</h2>
         </div>
-        <div className="uppercase">
+        <div className="uppercase hidden lg:flex">
           <ul className="text-white flex gap-4 text-sm justify-center items-center menuList">
-            <li>
-              <NavLink to={"/"} className="p-1">
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="p-1" to={"/shop"}>
-                Shop
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to={"/about-us"} className="p-1">
-                About us
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to={"/contact-us"} className="p-1">
-                Contact us
-              </NavLink>
-            </li>
+            {menuList}
           </ul>
         </div>
         <div className="flex gap-5 items-center">
@@ -61,7 +73,7 @@ const Navbar = () => {
             </button>
           </div>
           <div className="flex items-center gap-5">
-            <button>
+            <button className="hidden lg:flex">
               <img src={ILove} alt="" />
             </button>
             <button>
