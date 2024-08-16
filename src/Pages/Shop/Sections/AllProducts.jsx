@@ -4,7 +4,9 @@ import product1 from "../../../assets/louis.png";
 
 const AllProducts = ({ className, data }) => {
   return (
-    <div className={`${className} grid grid-cols-1 lg:grid-cols-4 gap-7`}>
+    <div
+      className={`${className} grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7`}
+    >
       {data?.map((product) => (
         <ProductCard key={product?._id} img={product1} product={product} />
       ))}

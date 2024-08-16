@@ -5,10 +5,11 @@ import LoginForm from "../Components/LoginForm";
 import SignUpForm from "../Components/SignUpForm";
 import ILove from "../assets/love.svg";
 import ICart from "../assets/cart.svg";
-import { MdMenu } from "react-icons/md";
+import { MdExitToApp, MdMenu } from "react-icons/md";
 const Navbar = () => {
   const [isOpenSignUp, setIsOpenSignUp] = useState(false);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const menuList = (
     <>
@@ -35,23 +36,25 @@ const Navbar = () => {
     </>
   );
   return (
-    <nav className="h-12 bg-black/90 z-50">
-      <Section className="flex justify-between items-center h-full relative">
+    <nav className="h-12 bg-black/90 z-50 px-2 lg:px-0">
+      <Section className="flex justify-between items-center h-full relative *:flex-1 lg:*:flex-none">
         <div className="text-white h-full flex items-center lg:hidden">
-          <button className="text-2xl">
+          <button onClick={() => setIsOpenMenu(true)} className="text-2xl">
             <MdMenu />
           </button>
         </div>
         <div className="uppercase">
-          <h2 className="text-white font-semibold text-2xl">ClothMart</h2>
+          <h2 className="text-white font-semibold text-lg md:text-xl lg:text-2xl">
+            ClothMart
+          </h2>
         </div>
         <div className="uppercase hidden lg:flex">
           <ul className="text-white flex gap-4 text-sm justify-center items-center menuList">
             {menuList}
           </ul>
         </div>
-        <div className="flex gap-5 items-center">
-          <div className="h-12 px-6 bg-transparent text-sm text-white flex gap-1 items-center justify-center rounded-lg">
+        <div className="flex gap-5 items-center justify-end lg:justify-normal">
+          <div className="h-12 bg-transparent text-xs lg:text-sm text-white flex gap-1 items-center justify-center rounded-lg">
             <button
               className="active:scale-95 uppercase"
               onClick={() => {
@@ -72,8 +75,8 @@ const Navbar = () => {
               Sign Up
             </button>
           </div>
-          <div className="flex items-center gap-5">
-            <button className="hidden lg:flex">
+          <div className="hidden lg:flex items-center gap-5">
+            <button>
               <img src={ILove} alt="" />
             </button>
             <button>
@@ -98,6 +101,32 @@ const Navbar = () => {
           </div>
         </div>
       </Section>
+      <div
+        className={`fixed top-0 left-0  duration-500 ${
+          isOpenMenu ? "translate-x-0" : "-translate-x-full"
+        } min-w-[200px] bg-gray-50 h-screen p-5 shadow-xl`}
+      >
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-bold">Menu</h3>
+          <button
+            onClick={() => setIsOpenMenu(false)}
+            className="text-sm font-bold text-red-500"
+          >
+            Close
+          </button>
+        </div>
+        <hr className="my-2 border-black" />
+        <div className="">
+          <ul className="space-y-3 font-semibold">
+            {menuList}
+            <li className="pt-10">
+              <button className="flex justify-center items-center gap-2 text-white text-sm font-bold bg-red-500 rounded-md py-1 w-full">
+                Logout <MdExitToApp />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
   );
 };

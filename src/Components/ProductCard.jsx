@@ -18,7 +18,7 @@ const formatDate = (isoString) => {
 const ProductCard = ({ img, product }) => {
   return (
     <div className="">
-      <div className="relative h-[336px] w-full shadow-lg">
+      <div className="relative h-[260px] md:h-[336px] lg:h-[336px] w-full shadow-lg">
         <img className="size-full" src={img} alt="" />
         <button className="bg-white p-2 rounded-full absolute top-3 right-3">
           <img src={ILike} alt="" />
@@ -35,20 +35,20 @@ const ProductCard = ({ img, product }) => {
         </div>
       </div>
       <div className="px-3 mt-1">
-        <h3 className="text-lg font-medium">{product?.productName}</h3>
-        <p className="text-sm font-medium text-[#717171]">
-          {product?.description}
-        </p>
+        <h3 className="text-lg font-medium text-center lg:text-start">
+          {product?.productName}
+        </h3>
 
-        <div className="flex justify-between mt-1">
-          <p className="text-sm font-medium text-[#717171]">
+        <div className="flex justify-between mt-1 flex-col lg:flex-row items-center text-sm font-medium">
+          <p>
             {/* man&#39;s {">"} Jeans */}
             {product?.category}
           </p>
-          <p className="text-sm font-medium text-[#717171]">
-            {formatDate(product?.creationDate)}
-          </p>
+          <p>{formatDate(product?.creationDate)}</p>
         </div>
+        <p className="text-sm font-medium text-[#717171] text-center lg:text-justify">
+          {product?.description}
+        </p>
       </div>
     </div>
   );
