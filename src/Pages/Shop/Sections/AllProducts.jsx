@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import ProductCard from "../../../Components/ProductCard";
-import product1 from "../../../assets/louis.png";
 
 const AllProducts = ({ className, data }) => {
   return (
@@ -8,7 +7,7 @@ const AllProducts = ({ className, data }) => {
       className={`${className} grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7`}
     >
       {data?.map((product) => (
-        <ProductCard key={product?._id} img={product1} product={product} />
+        <ProductCard key={product?._id} product={product} />
       ))}
     </div>
   );

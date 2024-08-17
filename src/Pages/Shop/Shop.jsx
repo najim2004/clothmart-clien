@@ -22,7 +22,7 @@ const Shop = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(12);
-
+  const [allProductsData, setAllProductsData] = useState();
   const fetchProducts = async () => {
     const response = await axiosPublic.get("/products", {
       params: {
@@ -41,6 +41,11 @@ const Shop = () => {
     keepPreviousData: true,
   });
 
+  useEffect(() => {
+    if (data) {
+      setAllProductsData(data);
+    }
+  }, [data]);
   const handleApply = () => {
     setCurrentPage(1);
   };
@@ -55,10 +60,10 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    if (data?.totalProducts === 0) {
+    if (allProductsData?.totalProducts === 0) {
       setCurrentPage(1);
     }
-  }, [data?.totalProducts]);
+  }, [allProductsData?.totalProducts]);
 
   if (error) toast.error("Error fetching products:", error?.message);
 
@@ -96,12 +101,12 @@ const Shop = () => {
           <span className="loading loading-dots loading-lg text-gray-500"></span>
         </div>
       )}
-      {data?.totalProducts > 0 ? (
+      {allProductsData?.totalProducts > 0 ? (
         <>
-          <AllProducts className="my-10" data={data?.products} />
+          <AllProducts className="my-10" data={allProductsData?.products} />
           <Pagination
             currentPage={currentPage}
-            totalPages={Math.ceil(data.totalProducts / pageSize)}
+            totalPages={Math.ceil(allProductsData.totalProducts / pageSize)}
             onPageChange={onPageChange}
           />
         </>

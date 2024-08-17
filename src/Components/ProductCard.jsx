@@ -15,11 +15,11 @@ const formatDate = (isoString) => {
   // Format the date
   return date.toLocaleDateString("en-GB", options);
 };
-const ProductCard = ({ img, product }) => {
+const ProductCard = ({ product }) => {
   return (
     <div className="">
-      <div className="relative h-[260px] md:h-[336px] lg:h-[336px] w-full shadow-lg">
-        <img className="size-full" src={img} alt="" />
+      <div className="relative size-[226px] w-full flex justify-center items-center bg-[#F7F7F7] mx-auto">
+        <img className="h-full" src={product?.productImage} alt="" />
         <button className="bg-white p-1 size-7  lg:p-2 rounded-full absolute top-3 right-3">
           <img className="size-full" src={ILike} alt="" />
         </button>
@@ -38,7 +38,9 @@ const ProductCard = ({ img, product }) => {
         <h3 className="text-lg font-medium text-center lg:text-start">
           {product?.productName}
         </h3>
-
+        <p className="text-sm font-medium text-[#717171] text-center lg:text-justify">
+          {product?.description}
+        </p>
         <div className="flex justify-between mt-1 flex-col lg:flex-row items-center text-sm font-medium">
           <p>
             {product?.brand}
@@ -47,9 +49,6 @@ const ProductCard = ({ img, product }) => {
           </p>
           <p>{formatDate(product?.creationDate)}</p>
         </div>
-        <p className="text-sm font-medium text-[#717171] text-center lg:text-justify">
-          {product?.description}
-        </p>
       </div>
     </div>
   );

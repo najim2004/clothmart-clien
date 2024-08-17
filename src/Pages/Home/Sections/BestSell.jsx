@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import ProductCard from "../../../Components/ProductCard";
 import Section from "../../../Components/Section";
-import product2 from "../../../assets/product2.png";
 import useAxios from "../../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -22,7 +21,7 @@ const BestSell = () => {
       </h3>
       <div className="grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
         {products?.slice(0, 8).map((product) => (
-          <ProductCard key={product?._id} product={product} img={product2} />
+          <ProductCard key={product?._id} product={product} />
         ))}
       </div>
       <Link
