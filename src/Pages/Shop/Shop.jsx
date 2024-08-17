@@ -8,6 +8,7 @@ import Pagination from "../../Components/Pagination";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const Shop = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -63,6 +64,9 @@ const Shop = () => {
 
   return (
     <Section>
+      <Helmet>
+        <title>Shop | Cloth Mart</title>
+      </Helmet>
       <h3 className="lg:text-[40px] md:text-2xl text-xl font-bold mx-auto text-center my-7">
         Our All Collections
       </h3>

@@ -1,4 +1,4 @@
-import Section from "../../Components/Section";
+import { Helmet } from "react-helmet-async";
 import Banner from "./Sections/Banner";
 import BestSell from "./Sections/BestSell";
 import Catagories from "./Sections/Catagories";
@@ -7,6 +7,9 @@ import WhyChooseUs from "./Sections/WhyChooseUs";
 const Home = () => {
   return (
     <div>
+      <Helmet>
+        <title>Home | Cloth Mart</title>
+      </Helmet>
       <Banner />
       <Catagories />
       <BestSell />
