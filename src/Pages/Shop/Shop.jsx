@@ -7,6 +7,7 @@ import AllProducts from "./Sections/AllProducts";
 import Pagination from "../../Components/Pagination";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const Shop = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -57,8 +58,8 @@ const Shop = () => {
       setCurrentPage(1);
     }
   }, [data?.totalProducts]);
-  // if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error fetching products: {error.message}</div>;
+
+  if (error) toast.error("Error fetching products:", error?.message);
 
   return (
     <Section>
@@ -69,7 +70,7 @@ const Shop = () => {
         <SearchField
           setSearchQuery={setSearchQuery}
           onSearch={onSearch}
-          className="lg:flex-grow flex justify-center items-center"
+          className="lg:flex-grow"
         />
         <button
           onClick={() => setIsOpenFilter(true)}
@@ -86,6 +87,11 @@ const Shop = () => {
           setIsOpenFilter={setIsOpenFilter}
         />
       </div>
+      {isLoading && (
+        <div className="w-full my-5 flex justify-center items-center">
+          <span className="loading loading-dots loading-lg text-gray-500"></span>
+        </div>
+      )}
       {data?.totalProducts > 0 ? (
         <>
           <AllProducts className="my-10" data={data?.products} />
@@ -96,10 +102,12 @@ const Shop = () => {
           />
         </>
       ) : (
-        <div className="h-[400px] w-full flex flex-col justify-center items-center">
-          <h1 className="text-5xl font-bold text-gray-400 mb-4">{":("}</h1>
-          <h1 className="text-4xl font-bold text-gray-400">Not Found!</h1>
-        </div>
+        !isLoading && (
+          <div className="h-[400px] w-full flex flex-col justify-center items-center">
+            <h1 className="text-5xl font-bold text-gray-400 mb-4">{":("}</h1>
+            <h1 className="text-4xl font-bold text-gray-400">Not Found!</h1>
+          </div>
+        )
       )}
     </Section>
   );

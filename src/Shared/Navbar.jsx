@@ -74,15 +74,15 @@ const Navbar = () => {
               </button>
               <div
                 className={`${
-                  isOpenAvatarMenu ? "" : "lg:block"
+                  isOpenAvatarMenu ? "lg:block" : "hidden"
                 } w-[200px] hidden bg-gray-100 p-5 absolute right-0 top-12 rounded-md`}
               >
                 <ul>
                   <li>
                     <button
                       onClick={() => {
-                        logout();
                         setIsOpenAvatarMenu(false);
+                        logout();
                       }}
                       className="flex justify-center items-center gap-2 text-white text-sm font-bold bg-red-500 rounded-md py-1 w-full"
                     >
