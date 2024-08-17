@@ -1,16 +1,21 @@
 import { Link, NavLink } from "react-router-dom";
 import Section from "../Components/Section";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import LoginForm from "../Components/LoginForm";
 import SignUpForm from "../Components/SignUpForm";
 import ILove from "../assets/love.svg";
 import ICart from "../assets/cart.svg";
 import { MdExitToApp, MdMenu } from "react-icons/md";
+import { MyContext } from "../Context/ContextProvider";
+import { FaUser } from "react-icons/fa";
 const Navbar = () => {
+  const { authenticationStatus, logout } = useContext(MyContext);
+  const { user, isAuthenticated, isLoading } = authenticationStatus;
   const [isOpenSignUp, setIsOpenSignUp] = useState(false);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-
+  const [isOpenAvatarMenu, setIsOpenAvatarMenu] = useState(false);
+  console.log(authenticationStatus);
   const menuList = (
     <>
       <li>
@@ -57,35 +62,69 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex gap-5 items-center justify-end lg:justify-normal">
-          <div className="h-12 bg-transparent text-xs lg:text-sm text-white flex gap-1 items-center justify-center rounded-lg">
-            <button
-              className="active:scale-95 uppercase"
-              onClick={() => {
-                setIsOpenSignUp(false);
-                setIsOpenLogin(!isOpenLogin);
-              }}
-            >
-              Login
-            </button>{" "}
-            /{" "}
-            <button
-              className="active:scale-95 uppercase"
-              onClick={() => {
-                setIsOpenLogin(false);
-                setIsOpenSignUp(!isOpenSignUp);
-              }}
-            >
-              Sign Up
-            </button>
-          </div>
-          <div className="hidden lg:flex items-center gap-5">
-            <button>
-              <img src={ILove} alt="" />
-            </button>
-            <button>
-              <img src={ICart} alt="" />
-            </button>
-          </div>
+          {isLoading ? (
+            <span className="loading loading-ring loading-lg text-white"></span>
+          ) : user && isAuthenticated ? (
+            <div className="relative">
+              <button
+                onClick={() => setIsOpenAvatarMenu(!isOpenAvatarMenu)}
+                className="bg-gray-100 size-9 rounded-full flex justify-center items-center overflow-hidden"
+              >
+                <FaUser className="text-black/50 text-2xl" />
+              </button>
+              <div
+                className={`${
+                  isOpenAvatarMenu ? "" : "lg:block"
+                } w-[200px] hidden bg-gray-100 p-5 absolute right-0 top-12 rounded-md`}
+              >
+                <ul>
+                  <li>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setIsOpenAvatarMenu(false);
+                      }}
+                      className="flex justify-center items-center gap-2 text-white text-sm font-bold bg-red-500 rounded-md py-1 w-full"
+                    >
+                      Logout <MdExitToApp />
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="h-12 bg-transparent text-xs lg:text-sm text-white flex gap-1 items-center justify-center rounded-lg">
+                <button
+                  className="active:scale-95 uppercase"
+                  onClick={() => {
+                    setIsOpenSignUp(false);
+                    setIsOpenLogin(!isOpenLogin);
+                  }}
+                >
+                  Login
+                </button>{" "}
+                /{" "}
+                <button
+                  className="active:scale-95 uppercase"
+                  onClick={() => {
+                    setIsOpenLogin(false);
+                    setIsOpenSignUp(!isOpenSignUp);
+                  }}
+                >
+                  Sign Up
+                </button>
+              </div>
+              <div className="hidden lg:flex items-center gap-5">
+                <button>
+                  <img src={ILove} alt="" />
+                </button>
+                <button>
+                  <img src={ICart} alt="" />
+                </button>
+              </div>
+            </>
+          )}
         </div>
         <div
           className={`${
@@ -132,11 +171,16 @@ const Navbar = () => {
             <li>
               <NavLink to={"/cart"}>Cart</NavLink>
             </li>
-            <li className="pt-10">
-              <button className="flex justify-center items-center gap-2 text-white text-sm font-bold bg-red-500 rounded-md py-1 w-full">
-                Logout <MdExitToApp />
-              </button>
-            </li>
+            {user && isAuthenticated && (
+              <li className="pt-10">
+                <button
+                  onClick={() => logout()}
+                  className="flex justify-center items-center gap-2 text-white text-sm font-bold bg-red-500 rounded-md py-1 w-full"
+                >
+                  Logout <MdExitToApp />
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </div>

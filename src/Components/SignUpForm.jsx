@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FiEye, FiEyeOff } from "react-icons/fi"; // For password visibility icon
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { SlClose } from "react-icons/sl";
+import { MyContext } from "../Context/ContextProvider";
+
 const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
-  // const axiosPublic = useAxiosPublic();
+  const { signup } = useContext(MyContext);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const {
@@ -18,7 +21,19 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
     if (!isOpenSignUp) reset();
   }, [isOpenSignUp, reset]);
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      await signup(data.email, data.password, data.fullName);
+      toast.success("Account created successfully!");
+      setIsOpenSignUp(false);
+    } catch (error) {
+      toast.error("Failed to sign up. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="w-[380px] overflow-x-hidden mx-auto p-6 bg-white rounded-sm shadow-md">
       <button
@@ -35,33 +50,42 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Full name</label>
           <input
-            {...register("fullName", { required: true })}
+            {...register("fullName", { required: "Full name is required" })}
             placeholder="yourname"
             className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black "
           />
           {errors.fullName && (
-            <span className="text-red-500">Full name is required</span>
+            <span className="text-red-500">{errors.fullName.message}</span>
           )}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Email</label>
           <input
             {...register("email", {
-              required: true,
-              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "Invalid email format",
+              },
             })}
             placeholder="yourname@gmail.com"
             className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black "
           />
           {errors.email && (
-            <span className="text-red-500">Valid email is required</span>
+            <span className="text-red-500">{errors.email.message}</span>
           )}
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 mb-2">Password</label>
           <div className="relative">
             <input
-              {...register("password", { required: true, minLength: 8 })}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+              })}
               type={passwordVisible ? "text" : "password"}
               placeholder="********"
               className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black "
@@ -75,15 +99,13 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
             </button>
           </div>
           {errors.password && (
-            <span className="text-red-500">
-              Password must be at least 8 characters
-            </span>
+            <span className="text-red-500">{errors.password.message}</span>
           )}
         </div>
         <button
           disabled={loading}
           type="submit"
-          className={`w-full bg-black  text-white p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-transparent mb-4 flex items-center justify-center ${
+          className={`w-full bg-black text-white p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-transparent mb-4 flex items-center justify-center ${
             loading ? "cursor-not-allowed" : "active:scale-95"
           }`}
         >
@@ -108,6 +130,12 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
       </p>
     </div>
   );
+};
+
+SignUpForm.propTypes = {
+  isOpenSignUp: PropTypes.bool.isRequired,
+  setIsOpenSignUp: PropTypes.func.isRequired,
+  setIsOpenLogin: PropTypes.func.isRequired,
 };
 
 export default SignUpForm;

@@ -1,26 +1,29 @@
 import { Link } from "react-router-dom";
 import ProductCard from "../../../Components/ProductCard";
 import Section from "../../../Components/Section";
-import product1 from "../../../assets/louis.png";
 import product2 from "../../../assets/product2.png";
-import product3 from "../../../assets/product3.png";
-import product4 from "../../../assets/product4.png";
+import useAxios from "../../../Hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
 
 const BestSell = () => {
+  const axiosPublic = useAxios();
+  // Fetch best sell products from API
+  const { data: products } = useQuery({
+    queryKey: ["bestSell"],
+    queryFn: async () => {
+      const response = await axiosPublic.get("/products");
+      return response?.data?.products;
+    },
+  });
   return (
     <Section className="mt-10 flex flex-col items-center">
       <h3 className="text-[40px] font-bold mx-auto text-center mb-7">
         Best Sell Product
       </h3>
       <div className="grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
-        <ProductCard img={product1} />
-        <ProductCard img={product2} />
-        <ProductCard img={product3} />
-        <ProductCard img={product4} />
-        <ProductCard img={product1} />
-        <ProductCard img={product2} />
-        <ProductCard img={product3} />
-        <ProductCard img={product4} />
+        {products?.slice(0, 8).map((product) => (
+          <ProductCard key={product?._id} product={product} img={product2} />
+        ))}
       </div>
       <Link
         to={"/shop"}

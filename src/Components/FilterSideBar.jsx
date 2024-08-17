@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import useAxios from "../Hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
 
 const FilterSideBar = ({
   className,
@@ -9,10 +11,26 @@ const FilterSideBar = ({
   handleApply,
   setFilterOptions,
 }) => {
+  const axiosPublic = useAxios();
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sort, setSort] = useState("");
+
+  const { data: allBrands } = useQuery({
+    queryKey: ["allBrands"],
+    queryFn: async () => {
+      const response = await axiosPublic.get("/all-brans-name");
+      return response.data;
+    },
+  });
+  const { data: allCategories } = useQuery({
+    queryKey: ["allCategories"],
+    queryFn: async () => {
+      const response = await axiosPublic.get("/all-categories");
+      return response.data;
+    },
+  });
 
   const handleApplyFilter = () => {
     handleApply();
@@ -71,9 +89,11 @@ const FilterSideBar = ({
             className="mt-1 block w-full rounded-md border border-gray-300 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"
           >
             <option value="">All Brands</option>
-            <option value="brand1">Brand 1</option>
-            <option value="brand2">Brand 2</option>
-            <option value="brand3">Brand 3</option>
+            {allBrands?.map((brand) => (
+              <option key={brand?._id} value={brand?.brandName}>
+                {brand?.brandName}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -88,9 +108,11 @@ const FilterSideBar = ({
             className="mt-1 block w-full rounded-md border border-gray-300 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"
           >
             <option value="">All Categories</option>
-            <option value="category1">Category 1</option>
-            <option value="category2">Category 2</option>
-            <option value="category3">Category 3</option>
+            {allCategories?.map((category) => (
+              <option key={category?._id} value={category?.categoryName}>
+                {category?.categoryName}
+              </option>
+            ))}
           </select>
         </div>
 

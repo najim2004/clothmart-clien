@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { FiEye, FiEyeOff } from "react-icons/fi"; // For password visibility icon
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { SlClose } from "react-icons/sl";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
+import { MyContext } from "../Context/ContextProvider";
+
 const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
+  const { login, loginWithGoogle } = useContext(MyContext);
   const {
     register,
     handleSubmit,
@@ -20,7 +24,27 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    try {
+      await login(data.email, data.password);
+      toast.success("Logged in successfully!");
+      setIsOpenLogin(false);
+    } catch (error) {
+      toast.error("Failed to log in. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await loginWithGoogle();
+      toast.success("Logged in with Google successfully!");
+      setIsOpenLogin(false);
+    } catch (error) {
+      toast.error("Failed to log in with Google. Please try again.");
+    }
+  };
+
   return (
     <div className="w-[380px] overflow-x-hidden mx-auto p-6 bg-white rounded-sm shadow-md">
       <button
@@ -36,21 +60,30 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
           <label className="block text-gray-700 mb-2">Email</label>
           <input
             {...register("email", {
-              required: true,
-              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "Invalid email format",
+              },
             })}
             placeholder="yourname@gmail.com"
             className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black"
           />
           {errors.email && (
-            <span className="text-red-500">Valid email is required</span>
+            <span className="text-red-500">{errors.email.message}</span>
           )}
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 mb-2">Password</label>
           <div className="relative">
             <input
-              {...register("password", { required: true, minLength: 6 })}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
               type={passwordVisible ? "text" : "password"}
               placeholder="********"
               className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black"
@@ -64,9 +97,7 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
             </button>
           </div>
           {errors.password && (
-            <span className="text-red-500">
-              Password must be at least 6 characters
-            </span>
+            <span className="text-red-500">{errors.password.message}</span>
           )}
         </div>
         <button
@@ -85,6 +116,7 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
         <div className="flex items-center justify-center">
           <button
             type="button"
+            onClick={handleGoogleLogin}
             className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-sm flex items-center space-x-2 focus:outline-none active:scale-95 hover:bg-gray-100"
           >
             <FcGoogle />
@@ -106,6 +138,12 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
       </p>
     </div>
   );
+};
+
+LoginForm.propTypes = {
+  isOpenLogin: PropTypes.bool.isRequired,
+  setIsOpenLogin: PropTypes.func.isRequired,
+  setIsOpenSignUp: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

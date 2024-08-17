@@ -41,7 +41,8 @@ const ProductCard = ({ img, product }) => {
 
         <div className="flex justify-between mt-1 flex-col lg:flex-row items-center text-sm font-medium">
           <p>
-            {/* man&#39;s {">"} Jeans */}
+            {product?.brand}
+            {" / "}
             {product?.category}
           </p>
           <p>{formatDate(product?.creationDate)}</p>
