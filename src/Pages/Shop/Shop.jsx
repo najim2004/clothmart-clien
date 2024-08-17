@@ -65,6 +65,9 @@ const Shop = () => {
     }
   }, [allProductsData?.totalProducts]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [data]);
   if (error) toast.error("Error fetching products:", error?.message);
 
   return (
