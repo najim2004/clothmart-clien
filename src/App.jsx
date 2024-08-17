@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="flex flex-col w-full lg:min-h-screen">
       <Navbar />
-      <div className="flex-grow px-3 lg:px-0">
+      <div className="flex-grow px-4 lg:px-0">
         <Outlet />
       </div>
       <Footer />
