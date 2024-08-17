@@ -11,7 +11,7 @@ This project is a template for creating modern React applications using Vite. It
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/project-template.git
+   git clone https://github.com/najim2004/clothmart-client.git
    cd project-template
    ```
 
