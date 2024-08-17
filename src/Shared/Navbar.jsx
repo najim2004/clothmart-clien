@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Section from "../Components/Section";
 import { useState } from "react";
 import LoginForm from "../Components/LoginForm";
@@ -36,17 +36,20 @@ const Navbar = () => {
     </>
   );
   return (
-    <nav className="h-12 bg-black/90 z-50 px-2 lg:px-0">
+    <nav className="h-12 bg-black/90 z-50 px-2 lg:px-0 sticky top-0 left-0">
       <Section className="flex justify-between items-center h-full relative *:flex-1 lg:*:flex-none">
         <div className="text-white h-full flex items-center lg:hidden">
           <button onClick={() => setIsOpenMenu(true)} className="text-2xl">
             <MdMenu />
           </button>
         </div>
-        <div className="uppercase">
-          <h2 className="text-white font-semibold text-lg md:text-xl lg:text-2xl">
+        <div className="uppercase flex justify-center lg:justify-start">
+          <Link
+            to={"/"}
+            className="text-white font-semibold text-lg md:text-xl lg:text-2xl"
+          >
             ClothMart
-          </h2>
+          </Link>
         </div>
         <div className="uppercase hidden lg:flex">
           <ul className="text-white flex gap-4 text-sm justify-center items-center menuList">
@@ -84,7 +87,11 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-        <div className={`absolute top-12 right-0 z-40`}>
+        <div
+          className={`${
+            isOpenLogin || isOpenSignUp ? "flex" : "hidden"
+          } fixed w-full h-full top-0 right-0  z-40 justify-center items-center bg-black/30 backdrop-blur-[8px]`}
+        >
           <div className={`${isOpenLogin ? "flex" : "hidden"}`}>
             <LoginForm
               isOpenLogin={isOpenLogin}
@@ -119,6 +126,12 @@ const Navbar = () => {
         <div className="">
           <ul className="space-y-3 font-semibold menuList">
             {menuList}
+            <li>
+              <NavLink to={"/likes"}>Likes</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/cart"}>Cart</NavLink>
+            </li>
             <li className="pt-10">
               <button className="flex justify-center items-center gap-2 text-white text-sm font-bold bg-red-500 rounded-md py-1 w-full">
                 Logout <MdExitToApp />

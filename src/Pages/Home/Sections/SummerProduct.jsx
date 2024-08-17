@@ -2,11 +2,11 @@ import Section from "../../../Components/Section";
 import summerProduct from "../../../assets/summer-produc.png";
 const SummerProduct = () => {
   return (
-    <Section className="flex *:flex-1 h-[514px] mt-10">
-      <div className="">
+    <Section className="flex flex-col md:flex-row lg:flex-row *:flex-1 md:h-[514px] lg:h-[514px] mt-10">
+      <div className="h-[514px]">
         <img src={summerProduct} className="size-full" alt="" />
       </div>
-      <div className="bg-[#F5F5F5] flex justify-center items-center">
+      <div className="lg:bg-[#F5F5F5] md:bg-[#F5F5F5] flex justify-center items-center">
         <div className="max-w-[318px] flex flex-col items-center justify-center text-center">
           <p className="text-sm font-medium uppercase">SALE EVENT</p>
           <h2 className="text-3xl font-bold my-2">

@@ -20,10 +20,10 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
 
   const onSubmit = async (data) => {};
   return (
-    <div className="w-[380px] overflow-x-hidden mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-[380px] overflow-x-hidden mx-auto p-6 bg-white rounded-sm shadow-md">
       <button
         onClick={() => setIsOpenSignUp(false)}
-        className="text-secondary mb-2 ml-[calc(100%-24px)] text-xl active:scale-95"
+        className="text-red-500 mb-2 ml-[calc(100%-24px)] text-xl active:scale-95"
       >
         <SlClose />
       </button>
@@ -37,7 +37,7 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
           <input
             {...register("fullName", { required: true })}
             placeholder="yourname"
-            className="w-full p-3 bg-transparent h-12 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black "
           />
           {errors.fullName && (
             <span className="text-red-500">Full name is required</span>
@@ -51,7 +51,7 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
               pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
             })}
             placeholder="yourname@gmail.com"
-            className="w-full p-3 bg-transparent h-12 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black "
           />
           {errors.email && (
             <span className="text-red-500">Valid email is required</span>
@@ -64,7 +64,7 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
               {...register("password", { required: true, minLength: 8 })}
               type={passwordVisible ? "text" : "password"}
               placeholder="********"
-              className="w-full p-3 bg-transparent h-12 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black "
             />
             <button
               type="button"
@@ -83,7 +83,7 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
         <button
           disabled={loading}
           type="submit"
-          className={`w-full bg-primary text-white p-3 rounded focus:outline-none focus:ring-2 focus:ring-transparent mb-4 flex items-center justify-center ${
+          className={`w-full bg-black  text-white p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-transparent mb-4 flex items-center justify-center ${
             loading ? "cursor-not-allowed" : "active:scale-95"
           }`}
         >
@@ -101,7 +101,7 @@ const SignUpForm = ({ isOpenSignUp, setIsOpenSignUp, setIsOpenLogin }) => {
             setIsOpenLogin(true);
             setIsOpenSignUp(false);
           }}
-          className="text-primary active:scale-95"
+          className="text-black font-medium active:scale-95"
         >
           Login
         </button>

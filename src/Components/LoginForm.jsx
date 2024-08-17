@@ -22,10 +22,10 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
     setLoading(true);
   };
   return (
-    <div className="w-[380px] overflow-x-hidden mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-[380px] overflow-x-hidden mx-auto p-6 bg-white rounded-sm shadow-md">
       <button
         onClick={() => setIsOpenLogin(false)}
-        className="text-secondary mb-2 ml-[calc(100%-24px)] text-xl active:scale-95"
+        className="text-red-500 mb-2 ml-[calc(100%-24px)] text-xl active:scale-95"
       >
         <SlClose />
       </button>
@@ -40,7 +40,7 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
               pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
             })}
             placeholder="yourname@gmail.com"
-            className="w-full p-3 bg-transparent h-12 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black"
           />
           {errors.email && (
             <span className="text-red-500">Valid email is required</span>
@@ -53,7 +53,7 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
               {...register("password", { required: true, minLength: 6 })}
               type={passwordVisible ? "text" : "password"}
               placeholder="********"
-              className="w-full p-3 bg-transparent h-12 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full p-3 bg-transparent h-12 rounded-sm border focus:outline-none focus:ring-2 focus:ring-black"
             />
             <button
               type="button"
@@ -72,7 +72,7 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
         <button
           disabled={loading}
           type="submit"
-          className={`w-full bg-primary text-white p-3 rounded focus:outline-none focus:ring-2 focus:ring-transparent mb-4 flex items-center justify-center ${
+          className={`w-full bg-black text-white p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-transparent mb-4 flex items-center justify-center ${
             loading ? "cursor-not-allowed" : "active:scale-95"
           }`}
         >
@@ -85,7 +85,7 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
         <div className="flex items-center justify-center">
           <button
             type="button"
-            className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center space-x-2 focus:outline-none active:scale-95"
+            className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-sm flex items-center space-x-2 focus:outline-none active:scale-95 hover:bg-gray-100"
           >
             <FcGoogle />
             <span>Login with Google</span>
@@ -99,7 +99,7 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
             setIsOpenSignUp(true);
             setIsOpenLogin(false);
           }}
-          className="text-primary active:scale-95"
+          className="text-black font-medium hover:underline active:scale-95"
         >
           Sign Up
         </button>

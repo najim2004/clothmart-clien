@@ -8,7 +8,7 @@ const WhyChooseUs = () => {
   return (
     <Section>
       <hr className="mt-12 mb-10 border-black" />
-      <div className="w-full flex justify-center gap-12">
+      <div className="w-full flex justify-center gap-12 flex-wrap">
         <div className="max-w-[270px] space-y-4 flex flex-col justify-center items-center text-justify">
           <img src={freeShipping} alt="" />
           <h2 className="text-2xl font-bold">FREE SHIPPING</h2>

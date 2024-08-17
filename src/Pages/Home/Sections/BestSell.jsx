@@ -12,7 +12,7 @@ const BestSell = () => {
       <h3 className="text-[40px] font-bold mx-auto text-center mb-7">
         Best Sell Product
       </h3>
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-7">
+      <div className="grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
         <ProductCard img={product1} />
         <ProductCard img={product2} />
         <ProductCard img={product3} />
