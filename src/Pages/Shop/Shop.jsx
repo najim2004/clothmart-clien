@@ -17,7 +17,7 @@ const Shop = () => {
   const [filterOptions, setFilterOptions] = useState({
     brand: "",
     category: "",
-    priceRange: [0, 1000],
+    priceRange: "",
     sort: "",
   });
   const [currentPage, setCurrentPage] = useState(1);

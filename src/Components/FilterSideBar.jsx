@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import useAxios from "../Hooks/useAxios";
@@ -14,7 +14,7 @@ const FilterSideBar = ({
   const axiosPublic = useAxios();
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([]);
   const [sort, setSort] = useState("");
 
   const { data: allBrands } = useQuery({
@@ -31,7 +31,16 @@ const FilterSideBar = ({
       return response.data;
     },
   });
-
+  const { data: maxPrice } = useQuery({
+    queryKey: ["maxPrice"],
+    queryFn: async () => {
+      const response = await axiosPublic.get("/max-price");
+      return response?.data?.maxPrice;
+    },
+  });
+  useEffect(() => {
+    setPriceRange([0, maxPrice || 10000]);
+  }, [maxPrice]);
   const handleApplyFilter = () => {
     handleApply();
     setFilterOptions({ brand, category, priceRange, sort });
@@ -39,10 +48,15 @@ const FilterSideBar = ({
   };
   const handleReset = () => {
     handleApply();
-    setFilterOptions({ brand: "", category: "", priceRange, sort: "" });
+    setFilterOptions({
+      brand: "",
+      category: "",
+      priceRange: [0, maxPrice || 10000],
+      sort: "",
+    });
     setBrand("");
     setCategory("");
-    setPriceRange([0, 1000]);
+    setPriceRange([0, maxPrice || 10000]);
     setSort("");
     setIsOpenFilter(false);
   };
@@ -69,7 +83,7 @@ const FilterSideBar = ({
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"
+            className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-black sm:text-sm outline-none"
           >
             <option value="">None</option>
             <option value="date-desc">Newest First</option>
@@ -86,7 +100,7 @@ const FilterSideBar = ({
           <select
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"
+            className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-black sm:text-sm outline-none"
           >
             <option value="">All Brands</option>
             {allBrands?.map((brand) => (
@@ -105,7 +119,7 @@ const FilterSideBar = ({
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"
+            className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-black sm:text-sm outline-none"
           >
             <option value="">All Categories</option>
             {allCategories?.map((category) => (
@@ -125,12 +139,13 @@ const FilterSideBar = ({
             <Slider
               range
               min={0}
-              max={1000}
+              max={maxPrice || 10000}
               value={priceRange}
               onChange={(value) => setPriceRange(value)}
               trackStyle={[{ backgroundColor: "gray" }]}
               handleStyle={[
-                { borderColor: "#4F46E5", backgroundColor: "#F5F5F5" },
+                { borderColor: "gray", backgroundColor: "#F5F5F5" },
+                { borderColor: "gray", backgroundColor: "#F5F5F5" },
               ]}
               railStyle={{ backgroundColor: "#E5E7EB" }}
             />

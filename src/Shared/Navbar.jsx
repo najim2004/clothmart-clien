@@ -15,7 +15,6 @@ const Navbar = () => {
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenAvatarMenu, setIsOpenAvatarMenu] = useState(false);
-  console.log(authenticationStatus);
   const menuList = (
     <>
       <li>

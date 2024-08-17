@@ -18,8 +18,12 @@ const formatDate = (isoString) => {
 const ProductCard = ({ product }) => {
   return (
     <div className="">
-      <div className="relative size-[226px] w-full flex justify-center items-center bg-[#F7F7F7] mx-auto">
-        <img className="h-full" src={product?.productImage} alt="" />
+      <div className="relative h-[226px] max-w-[226px] flex justify-center items-center bg-[#F7F7F7] mx-auto overflow-hidden">
+        <img
+          className="h-full max-w-[226px]"
+          src={product?.productImage}
+          alt=""
+        />
         <button className="bg-white p-1 size-7  lg:p-2 rounded-full absolute top-3 right-3">
           <img className="size-full" src={ILike} alt="" />
         </button>
