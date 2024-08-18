@@ -48,12 +48,11 @@ const ContextProvider = ({ children }) => {
         email,
         password
       );
-      setAuthenticationStatus({
-        user: userCredential.user,
-        isAuthenticated: true,
-      });
+      return userCredential;
     } catch (error) {
+      setAuthenticationStatus({ ...authenticationStatus, isLoading: false });
       console.error("Error signing in:", error.message);
+      return error;
     }
   };
 
@@ -66,8 +65,11 @@ const ContextProvider = ({ children }) => {
         password
       );
       await updateProfile(auth.currentUser, { displayName });
+      return userCredential;
     } catch (error) {
+      setAuthenticationStatus({ ...authenticationStatus, isLoading: false });
       console.error("Error signing up:", error.message);
+      return error;
     }
   };
 
@@ -96,8 +98,11 @@ const ContextProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
+      return result;
     } catch (error) {
       console.error("Error signing in with Google:", error.message);
+      setAuthenticationStatus({ ...authenticationStatus, isLoading: false });
+      return error;
     }
   };
 

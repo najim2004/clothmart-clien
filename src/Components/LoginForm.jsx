@@ -25,9 +25,15 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      await login(data.email, data.password);
-      toast.success("Logged in successfully!");
-      setIsOpenLogin(false);
+      const userCredential = await login(data.email, data.password);
+
+      if (userCredential?.user?.email) {
+        toast.success("Logged in successfully!");
+        setIsOpenLogin(false);
+      }
+      if (userCredential.code === "auth/invalid-credential") {
+        toast.error("Invalid password or email");
+      }
     } catch (error) {
       toast.error("Failed to log in. Please try again.");
     } finally {
@@ -36,12 +42,20 @@ const LoginForm = ({ isOpenLogin, setIsOpenLogin, setIsOpenSignUp }) => {
   };
 
   const handleGoogleLogin = async () => {
+    setLoading(true);
+
     try {
-      await loginWithGoogle();
-      toast.success("Logged in with Google successfully!");
-      setIsOpenLogin(false);
+      const userCredential = await loginWithGoogle();
+      if (userCredential?.user?.email) {
+        toast.success("Logged in with Google successfully!");
+        setIsOpenLogin(false);
+      }
+      if (userCredential.code === "auth/popup-closed-by-user")
+        toast.error("Failed to log in. Please try again");
     } catch (error) {
       toast.error("Failed to log in with Google. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 

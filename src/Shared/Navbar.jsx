@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import Section from "../Components/Section";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import LoginForm from "../Components/LoginForm";
 import SignUpForm from "../Components/SignUpForm";
 import ILove from "../assets/love.svg";
@@ -39,6 +39,16 @@ const Navbar = () => {
       </li>
     </>
   );
+  useEffect(() => {
+    if (isOpenLogin || isOpenSignUp) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpenLogin, isOpenSignUp]);
   return (
     <nav className="h-12 bg-black/90 z-50 px-2 lg:px-0 sticky top-0 left-0">
       <Section className="flex justify-between items-center h-full relative *:flex-1 lg:*:flex-none">
